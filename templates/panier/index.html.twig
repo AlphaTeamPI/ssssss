@@ -1,0 +1,66 @@
+{% extends 'basef.html.twig' %}
+{% block navdisactive %}{% endblock %}
+{% block navpanier %}active{% endblock %}
+{% block title %}
+    <title>Alpha Fitness | Votre panier</title>
+{% endblock %}
+
+{% block panier %}
+    <section class="bg-light p-3">
+        <h1>Votre panier</h1>
+    </section>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for element in dataPanier %}
+            <tr>
+                <td>{{ element.produit.nom }}</td>
+                <td class="text-end">{{ element.produit.prix }} DT</td>
+                <td>{{ element.quantite }}</td>
+                <td class="text-end">{{ element.quantite * element.produit.prix }} DT</td>
+                <td>
+                    <a href="{{path("add", {id: element.produit.id})}}" class="btn btn-success">
+                        <i class="fa fa-cart-plus"></i>+
+                    </a>
+                    <a href="{{path("remove", {id: element.produit.id})}}" class="btn btn-warning">
+                        <i class="fa fa-cart-arrow-down"></i>-
+                    </a>
+                    <a href="{{path("delete", {id: element.produit.id})}}" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Votre panier est vide</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3">Total</td>
+            <td class="text-end">{{ total }} DT</td>
+            <td>
+                <a href="{{path("delete_all")}}" class="btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+            <td>
+                <form action="#" method="GET">
+                    <button class="btn btn-success"><i class="fa fa-check-circle"></i> Confimer la commande</button>
+                </form>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+{% endblock %}
